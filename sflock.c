@@ -81,7 +81,8 @@ main(int argc, char **argv) {
     KeySym ksym;
     Pixmap pmap;
     Window root, w;
-    XColor black, red, dummy;
+    // XColor black, red, dummy;
+    XColor black;
     XEvent ev;
     XSetWindowAttributes wa;
     XFontStruct* font;
@@ -89,10 +90,12 @@ main(int argc, char **argv) {
     XGCValues values;
 
     // defaults
-    char* passchar = "*";
-    char* fontname = "-*-dejavu sans-bold-r-*-*-*-420-100-100-*-*-iso8859-1";
-    char* username = ""; 
-    int showline = 1;
+    char* passchar = "-";
+    // char* fontname = "-*-dejavu sans-bold-r-*-*-*-420-100-100-*-*-iso8859-1";
+    // char* fontname = "-*-*-*-*-*-*-*-*-*-*-*-*-*-*";
+    char* fontname = "-*-tewi-medium-*-*-*-*-*-*-*-*-*-*-*";
+    char* username = "nl"; 
+    int showline = 0;
     int xshift = 0;
 
     for (int i = 0; i < argc; i++) {
@@ -160,13 +163,13 @@ main(int argc, char **argv) {
     height = DisplayHeight(dpy, screen);
 
     wa.override_redirect = 1;
-    wa.background_pixel = XBlackPixel(dpy, screen);
+    wa.background_pixel = 0xFF272822;
     w = XCreateWindow(dpy, root, 0, 0, width, height,
             0, DefaultDepth(dpy, screen), CopyFromParent,
             DefaultVisual(dpy, screen), CWOverrideRedirect | CWBackPixel, &wa);
 
-    XAllocNamedColor(dpy, DefaultColormap(dpy, screen), "orange red", &red, &dummy);
-    XAllocNamedColor(dpy, DefaultColormap(dpy, screen), "black", &black, &dummy);
+    // XAllocNamedColor(dpy, DefaultColormap(dpy, screen), "orange red", &red, &dummy);
+    // XAllocNamedColor(dpy, DefaultColormap(dpy, screen), "black", &black, &dummy);
     pmap = XCreateBitmapFromData(dpy, w, curs, 8, 8);
     invisible = XCreatePixmapCursor(dpy, pmap, pmap, &black, &black, 0, 0);
     XDefineCursor(dpy, w, invisible);
@@ -180,7 +183,7 @@ main(int argc, char **argv) {
 
     gc = XCreateGC(dpy, w, (unsigned long)0, &values);
     XSetFont(dpy, gc, font->fid);
-    XSetForeground(dpy, gc, XWhitePixel(dpy, screen));
+    XSetForeground(dpy, gc, 0xFFf1ebeb);
 
     for(len = 1000; len; len--) {
         if(XGrabPointer(dpy, root, False, ButtonPressMask | ButtonReleaseMask | PointerMotionMask,
@@ -259,7 +262,7 @@ main(int argc, char **argv) {
 #endif
                     if (running != 0)
                         // change background on wrong password
-                        XSetWindowBackground(dpy, w, red.pixel);
+                        XSetWindowBackground(dpy, w, 0xFFdc2566);
                     len = 0;
                     break;
                 case XK_Escape:
